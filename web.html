@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tatar Sunda Roleplay</title>
+    <!-- Google Fonts & FontAwesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #10b981;
+            --primary-dark: #059669;
+            --dark: #0f172a;
+            --darker: #020617;
+            --light: #f8fafc;
+            --card-bg: #1e293b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+        }
+
+        /* Tombol Musik Melayang */
+        .music-control {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 9999;
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .music-control:hover {
+            transform: scale(1.1);
+            background: var(--primary-dark);
+        }
+
+        /* Navbar */
+        header {
+            background: rgba(15, 23, 42, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo-container img {
+            width: 45px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid var(--primary);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 20px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--light);
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            overflow: hidden;
+        }
+
+        .hero-video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(2, 6, 23, 0.6), rgba(2, 6, 23, 0.85));
+            z-index: 2;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 3;
+            max-width: 800px;
+        }
+
+        /* Server Status Badge */
+        .server-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(16, 185, 129, 0.4);
+            padding: 8px 20px;
+            border-radius: 50px;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--primary);
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(0.95); opacity: 0.8; }
+            50% { transform: scale(1.2); opacity: 1; }
+            100% { transform: scale(0.95); opacity: 0.8; }
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            color: var(--light);
+        }
+
+        .hero-content h1 span {
+            color: var(--primary);
+        }
+
+        .hero-content p {
+            font-size: 1.15rem;
+            margin-bottom: 30px;
+            color: #cbd5e1;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 30px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background 0.3s, transform 0.2s;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        /* Sections General */
+        section {
+            padding: 90px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.3rem;
+            margin-bottom: 40px;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--primary);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .feature-card {
+            background: var(--dark);
+            padding: 30px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .feature-card i {
+            font-size: 2.3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            margin-bottom: 15px;
+            font-size: 1.25rem;
+        }
+
+        .feature-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        /* Rules Section */
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .rule-card {
+            background: var(--card-bg);
+            padding: 25px;
+            border-radius: 8px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .rule-card h3 {
+            margin-bottom: 10px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .rule-card h3 span {
+            color: var(--primary);
+            font-size: 0.9rem;
+        }
+
+        .rule-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Gallery Section */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            height: 250px;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            padding: 20px;
+            color: white;
+            font-weight: 600;
+        }
+
+        /* Whitelist Form Section */
+        .form-container {
+            background: var(--dark);
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            background: var(--card-bg);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            color: white;
+            font-size: 0.95rem;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-container button {
+            width: 100%;
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        /* Donasi / Store Section */
+        .store-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .store-card {
+            background: var(--dark);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .store-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .store-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .store-price {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .store-card ul {
+            list-style: none;
+            margin-bottom: 25px;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            text-align: left;
+        }
+
+        .store-card ul li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .store-card ul li i {
+            color: var(--primary);
+        }
+
+        /* Staff Section */
+        .staff-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .staff-card {
+            background: var(--dark);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
+
+        .staff-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .staff-avatar {
+            width: 90px;
+            height: 90px;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--primary);
+        }
+
+        .staff-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .staff-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 5px;
+            color: var(--light);
+        }
+
+        .staff-role {
+            font-size: 0.9rem;
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .staff-card p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 0.9rem;
+            margin-top: 50px;
+        }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.3rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Audio Musik Latar Belakang -->
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+        Browser Anda tidak mendukung elemen audio.
+    </audio>
+
+    <!-- Tombol Kontrol Musik Melayang -->
+    <button class="music-control" id="musicBtn" onclick="toggleMusic()" title="Nyalakan/Matikan Musik">
+        <i class="fas fa-volume-mute" id="musicIcon"></i>
+    </button>
+
+    <!-- Navbar -->
+    <header>
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="tatar.png" alt="Logo Tatar Sunda RP">
+                <div class="logo">Tatar Sunda RP</div>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Beranda</a></li>
+                <li><a href="#about">Fitur</a></li>
+                <li><a href="#rules">Aturan</a></li>
+                <li><a href="#gallery">Galeri</a></li>
+                <li><a href="#whitelist">Whitelist</a></li>
+                <li><a href="#store">Donasi</a></li>
+                <li><a href="#staff">Staff</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <video autoplay muted loop playsinline class="hero-video">
+            <source src="video.mp4" type="video/mp4">
+            Browser Anda tidak mendukung tag video.
+        </video>
+        
+        <div class="hero-overlay"></div>
+
+        <div class="hero-content">
+            <!-- Server Status Badge (Statistik Statis) -->
+            <div class="server-status-badge">
+                <div class="status-dot"></div>
+                <span>Server Status: <strong>ONLINE</strong> &bull; Open Players</span>
+            </div>
+
+            <h1>Selamat Datang di <span>Tatar Sunda RP</span></h1>
+            <p>Rasakan pengalaman bermain GTA SAMP Roleplay dengan nuansa lokal kearifan Sunda, ekonomi seimbang, dan komunitas yang aktif serta ramah.</p>
+            <a href="https://discord.gg/zv8PnfBn7U" target="_blank" class="btn"><i class="fab fa-discord"></i> Gabung Discord Kami</a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="about">
+        <h2 class="section-title">Fitur Unggulan</h2>
+        <div class="features-grid">
+            <div class="feature-card">
+                <i class="fas fa-users"></i>
+                <h3>Roleplay Kompeten</h3>
+                <p>Mendukung interaksi roleplay mendalam dengan regulasi yang adil bagi warga baru maupun veteran.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-briefcase"></i>
+                <h3>Pekerjaan Unik & Legal</h3>
+                <p>Tersedia berbagai pilihan pekerjaan mulai dari supir angkot, petani lokal, hingga pengusaha sukses.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Faksi Aktif</h3>
+                <p>Kepolisian (Polda/Polres Sunda) dan EMS yang selalu siap siaga menjaga ketertiban kota.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Server Rules Section -->
+    <section id="rules">
+        <h2 class="section-title">Aturan Dasar Server</h2>
+        <div class="rules-grid">
+            <div class="rule-card">
+                <h3><span>01</span> Metagaming (MG)</h3>
+                <p>Dilarang menggunakan informasi dari luar game (seperti Discord, Stream, dll) untuk keperluan karakter dalam game.</p>
+            </div>
+            <div class="rule-card">
+                <h3><span>02</span> Powergaming (PG)</h3>
+                <p>Dilarang melakukan hal-hal mustahil atau tidak masuk akal yang tidak dapat dilakukan manusia di dunia nyata.</p>
+            </div>
+            <div class="rule-card">
+                <h3><span>03</span> New Life Rule (NLR)</h3>
+                <p>Jika karakter Anda pingsan dan melakukan Respawn di rumah sakit, Anda wajib melupakan ingatan terkait kejadian sebelum pingsan.</p>
+            </div>
+            <div class="rule-card">
+                <h3><span>04</span> Respect & Attitude</h3>
+                <p>Wajib menghormati sesama pemain dan staf server, baik di dalam game maupun di dalam komunikasi Discord.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery">
+        <h2 class="section-title">Galeri Foto Server</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item">
+                <img src="kota.jpg" alt="Kota Roleplay">
+                <div class="gallery-overlay">Pusat Kota & Gedung Pemerintahan</div>
+            </div>
+            <div class="gallery-item">
+                <img src="mobil.png" alt="Meetup Kendaraan">
+                <div class="gallery-overlay">Kumpul Komunitas & Car Meet</div>
+            </div>
+            <div class="gallery-item">
+                <img src="polisi.jpeg" alt="Aksi Polisi">
+                <div class="gallery-overlay">Patroli & Pengamanan Wilayah</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Whitelist Form Section -->
+    <section id="whitelist">
+        <h2 class="section-title">Formulir Pendaftaran Whitelist</h2>
+        <div class="form-container">
+            <form id="whitelistForm">
+                <div class="form-group">
+                    <label>Nama Lengkap / Nama Asli</label>
+                    <input type="text" id="namaAsli" placeholder="Masukkan nama Anda" required>
+                </div>
+                <div class="form-group">
+                    <label>Username Discord (Contoh: Budi#1234)</label>
+                    <input type="text" id="discordId" placeholder="Masukkan Discord ID" required>
+                </div>
+                <div class="form-group">
+                    <label>Nama UCP / In-Game Username (SAMP)</label>
+                    <input type="text" id="namaUcp" placeholder="Contoh: Ujang_Surjaman" required>
+                </div>
+                <div class="form-group">
+                    <label>Ceritakan Latar Belakang (Backstory) Karakter Anda</label>
+                    <textarea id="backstory" rows="4" placeholder="Tuliskan latar belakang singkat karakter Anda..." required></textarea>
+                </div>
+                <button type="submit" class="btn" id="submitBtn">Kirim Pendaftaran</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Donasi / Store Section -->
+    <section id="store">
+        <h2 class="section-title">Dukungan & Donasi Server</h2>
+        <div class="store-grid">
+            <div class="store-card">
+                <h3>Warga VIP</h3>
+                <div class="store-price">Rp 25.000 <span style="font-size: 0.9rem; color: #94a3b8;">/bulan</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Prioritas Masuk Queue</li>
+                    <li><i class="fas fa-check"></i> Plat Nomor Kustom Bebas</li>
+                    <li><i class="fas fa-check"></i> Saldo Awal Tambahan In-Game</li>
+                </ul>
+                <a href="https://discord.gg/PhvqRDEpCK" target="_blank" class="btn" style="width: 100%;">Beli Paket</a>
+            </div>
+            <div class="store-card" style="border-color: var(--primary);">
+                <h3>Warga Eksklusif</h3>
+                <div class="store-price">Rp 40.000 <span style="font-size: 0.9rem; color: #94a3b8;">/bulan</span></div>
+                <ul>
+                    <li><i class="fas fa-check"></i> Semua Benefit Paket VIP</li>
+                    <li><i class="fas fa-check"></i> 1 Buah Kendaraan Impor Khusus</li>
+                    <li><i class="fas fa-check"></i> Request Desain Interior Rumah/Geng</li>
+                </ul>
+                <a href="https://discord.gg/PhvqRDEpCK" target="_blank" class="btn" style="width: 100%;">Beli Paket</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Staff Section -->
+    <section id="staff">
+        <h2 class="section-title">Tim Staf Server</h2>
+        <div class="staff-grid">
+            <div class="staff-card">
+                <div class="staff-avatar">
+                    <img src="S1.png" alt="Owner">
+                </div>
+                <h3>KING 4somaa</h3>
+                <div class="staff-role">Server Owner</div>
+                <p>Bertanggung jawab atas perkembangan total dan pengelolaan visi server Tatar Sunda RP.</p>
+            </div>
+            <div class="staff-card">
+                <div class="staff-avatar">
+                    <img src="tatar.png" alt="Developer">
+                </div>
+                <h3>Ujang Code</h3>
+                <div class="staff-role">Lead Developer</div>
+                <p>Mengurus skrip, optimasi kustomisasi kota, dan mengatasi kendala teknis dalam game.</p>
+            </div>
+            <div class="staff-card">
+                <div class="staff-avatar">
+                    <img src="tatar.png" alt="Admin">
+                </div>
+                <h3>Teteh Neng</h3>
+                <div class="staff-role">Head Admin</div>
+                <p>Memimpin jajaran staf admin dalam mengawasi kenyamanan roleplay dan laporan warga.</p>
+            </div>
+            <div class="staff-card">
+                <div class="staff-avatar">
+                    <img src="tatar.png" alt="Moderator">
+                </div>
+                <h3>Sandi Moderator</h3>
+                <div class="staff-role">Senior Moderator</div>
+                <p>Siaga membantu pemain baru di Discord dan menangani laporan tiket permasalahan in-game.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Tatar Sunda RP. All rights reserved. Developed with ❤️ for Indonesian GTA SAMP Community.</p>
+    </footer>
+
+    <!-- Script JavaScript untuk Musik & Whitelist Discord -->
+    <script>
+        // Logika Musik Otomatis & Tombol Kontrol
+        const music = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        const musicIcon = document.getElementById('musicIcon');
+        
+        music.volume = 0.3; // Mengatur volume awal 30% supaya tidak terlalu kencang
+
+        // Coba langsung putar musik saat halaman dibuka
+        window.addEventListener('load', () => {
+            music.play().then(() => {
+                musicIcon.className = "fas fa-volume-up";
+            }).catch(() => {
+                // Sebagian besar browser HP memblokir autoplay audio sebelum ada interaksi pengguna
+                musicIcon.className = "fas fa-volume-mute";
+            });
+        });
+
+        // Fungsi saat tombol musik diklik manual
+        function toggleMusic() {
+            if (music.paused) {
+                music.play();
+                musicIcon.className = "fas fa-volume-up";
+            } else {
+                music.pause();
+                musicIcon.className = "fas fa-volume-mute";
+            }
+        }
+
+        // Script Kirim Whitelist ke Discord Webhook
+        document.getElementById('whitelistForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.disabled = true;
+            submitBtn.innerText = 'Mengirim...';
+
+            const webhookURL = 'https://discord.com/api/v10/webhooks/1530900656825696377/D_WbE2RnDlUhEtTwM3yyjzSnmU2vcPLCVmIuVQAyOGHvToG1lYCWitJIXPnCY7F27LHR';
+
+            const namaAsli = document.getElementById('namaAsli').value;
+            const discordId = document.getElementById('discordId').value;
+            const namaUcp = document.getElementById('namaUcp').value;
+            const backstory = document.getElementById('backstory').value;
+
+            const requestBody = {
+                "embeds": [{
+                    "title": "📝 Pendaftaran Whitelist SAMP Baru",
+                    "color": 1085581,
+                    "fields": [
+                        { "name": "👤 Nama Asli", "value": namaAsli, "inline": true },
+                        { "name": "💬 Username Discord", "value": discordId, "inline": true },
+                        { "name": "🎮 Nama UCP / In-Game", "value": namaUcp, "inline": false },
+                        { "name": "📖 Backstory Karakter", "value": backstory, "inline": false }
+                    ],
+                    "timestamp": new Date().toISOString()
+                }]
+            };
+
+            fetch(webhookURL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(requestBody)
+            })
+            .then(response => {
+                if (response.ok) {
+                    alert('Formulir berhasil dikirim ke Discord! Silakan tunggu informasi selanjutnya.');
+                    document.getElementById('whitelistForm').reset();
+                } else {
+                    alert('Gagal mengirim formulir.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Terjadi kesalahan koneksi.');
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'Kirim Pendaftaran';
+            });
+        });
+    </script>
+</body>
+</html>
